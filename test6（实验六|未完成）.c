@@ -197,12 +197,100 @@ int SelectSort(){
 		}
 	}
 }
+int MathLearn_do(int a,int f,int b,int *ansp){
+	int ans;
+	printf("出题如下:\n%d %c %d = ?\n",a,f,b);
+	scanf("%d",&ans);
+	*ansp=ans;
+	return 0;
+}
 int SetQuestion(){//出题 
 	srand(time(NULL));
-	int a,f,b;
-	a=rand()%10+1;
-	f=rand()%4+1;
-	b=rand()%10+1;
+	int a[11],f[11],b[11],sum[11];//用数组储存操作数1、2,运算符 
+	int ans,*ansp;
+	int i;
+	ansp=&ans;
+	
+	/*操作数与运算符初始化*/ 
+	for(i=1;i<=10;i++){
+		a[i]=rand()%10+1;
+		f[i]=rand()%4+1;
+		b[i]=rand()%10+1;
+		switch(f[i]){
+			case 1:{
+				f[i]='+';
+				sum[i]=a[i]+b[i];
+				break;
+			}
+			case 2:{
+				f[i]='-';
+				if(a>=b) sum[i]=a[i]-b[i];
+				else{
+					do{
+						a[i]=rand()%10+1;
+						b[i]=rand()%10+1;
+					}while(a[i]<b[i]);
+					sum[i]=a[i]-b[i];
+				}
+				break;
+			}
+			case 3:{
+				f[i]='*';
+				sum[i]=a[i]*b[i];
+				break;
+			}
+			case 4:{
+				f[i]='/';
+				if(a[i]%b[i]==0) sum[i]=a[i]/b[i];
+				else{
+					do{
+						a[i]=rand()%10+1;
+						b[i]=rand()%10+1;
+					}while(a[i]%b[i]!=0);
+					sum[i]=a[i]/b[i];
+				}
+				break;
+			}
+		}
+	}//将十组操作数和运算符赋值
+	
+	/*用循环出题，直到错题数count为0时才跳出循环，教育小学生好帮手:)*/
+	int count;//统计错题数 
+	int mark[11]={0};
+	do{
+		for(i=1;i<=10;i++){
+			if(mark[i]==0){
+				ans=0;
+				MathLearn_do(a[i],f[i],b[i],ansp);
+				if(ans==sum[i]){
+					mark[i]=1;
+				}else{
+					mark[i]=0;
+				}
+			}	
+		}
+		count=0;
+		for(i=1;i<=10;i++){
+			if(mark[i]==0) count++;
+		}
+		if(count==0){
+			printf("Right!\n");
+			break;//如果正确则跳出循环，结束答题 
+		}else{
+			printf("错题数:%d\n",count);
+			printf("Do you want to correct your answer? Y/N\n");
+			int ch;
+			scanf("%c",&ch);
+			fflush(stdin);
+			scanf("%c",&ch);
+			if(ch==89 || ch==121){
+				system("cls");
+				continue;
+			}else{
+				break;
+			}
+		}
+	}while(count!=0);
 }
 int main(){
 	//StudyMem();
@@ -236,6 +324,9 @@ int main(){
 	//7 选择排序 
 	//SelectSort();
 	//printf("排序次数:%d\n",SelectSort());
+	
+	//10
+	//SetQuestion();
 	
 	return 0;
 }
