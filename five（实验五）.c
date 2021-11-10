@@ -155,11 +155,11 @@ void Count_e(){//EPS为10^-5
 		for(j=1;j<=i;j++){
 			n=n/(double)(j);
 		}
-		if(i>1 && f-n<EPS){
+		count++;
+		if(i>1 && f-n<=EPS){
 			break;
 		}
 		e+=n;
-		count++;
 		f=n;
 		n=1.0;
 	}
@@ -171,7 +171,7 @@ int SumPolynomial(int n){//约定n<10
 	int sum=0;
 	for(i=1;i<=n;i++){
 		t=0;//每次计算初始化 
-		for(j=0;j<=i-1;j++){//计算每一项 
+		for(j=0;j<i;j++){//计算每一项 
 			t=t*10+i;
 		}
 		sum+=t;
@@ -276,6 +276,59 @@ int MathLearn_PLUS(){
 	}
 	return wron;//返回错题数 
 }
+void PerfectNum(){//完数 
+	int i,j,sum,n=0,sumn=0;
+	printf("输出 1000 以内的完数及其因子:\n");
+	
+	for(i=1;i<=1000;i++){
+		sum=0;//sum用于记录因子之和，方便判断因子之和是否等于完数 
+		for(j=1;j<i;j++){
+			if(i%j==0) {//求因子之和
+				sum+=j;
+			}
+		}
+		if(i==sum) {//判断因子是否等于完数
+			n++;//用于记录完数个数 
+			sumn+=i;//用于记录完数和 
+			for(j=1;j<i;j++){
+				if(i%j==0) {//求因子之和
+					printf("%d+",j);
+				}
+			}
+			printf("\b");
+			printf("=%d\n",i);
+		}
+	}
+	
+	printf("完数和:%d 完数个数:%d\n",sumn,n);
+}
+int DaffodilNum(){
+	int i;
+	printf("将输出(100-999)范围的水仙花数:\n");
+	for(i=100;i<=999;i++){
+		int a1=i%10;
+		int a2=(i/10)%10;
+		int a3=i/100;
+		if(a1*a1*a1+a2*a2*a2+a3*a3*a3==i){
+			printf("%d = %d^3 + %d^3 + %d^3\n",i,a1,a2,a3);
+		}
+	}
+}
+void GetBall(){
+	int i,j,z;
+	int n=0;
+	        printf("序号 红-白-黑\n");
+	for(i=0;i<=3;i++){
+		for(j=0;j<=3;j++){
+			z=8-i-j;
+			if(z<=6){
+				n++;
+				printf("%2d:  %d-%d-%d\n",n,i,j,z);
+			}
+		}
+	}
+	printf("共 %d 种取法\n",n);
+}
 void menu_1(){
 	int ch;
 	printf("\n***********************\n");
@@ -302,18 +355,21 @@ void menu(){
 	for(;;){//三个表达式均为空，使for循环能无限循环，满足菜单循环要求 
 		int ch;
 		printf("\n***********************\n");
-		printf("*请选择功能：         *\n");
-		printf("*  1.求最大公约数(2)  *\n");
-		printf("*  2.判断素数(3)      *\n");
-		printf("*  3.循环统计(4)->    *\n");
-		printf("*  4.苹果购买方案(6)  *\n");
-		printf("*  5.迭代法求e值(7)   *\n");
-		printf("*  6.循环求多项式和(8)*\n");
-		printf("*  7.打印乘法表(9)    *\n");
-		printf("*  8.编程图案显示(10) *\n");
-		printf("*  9.算数练习PLUS     *\n");
-		printf("*  0.退出             *\n");
-		printf("***********************\n");
+		printf("*请选择功能:(题号)      *\n");
+		printf("*  1.求最大公约数(2)    *\n");
+		printf("*  2.判断素数(3)        *\n");
+		printf("*  3.循环统计(4)->      *\n");
+		printf("*  4.苹果购买方案(6)    *\n");
+		printf("*  5.迭代法求e值(7)     *\n");
+		printf("*  6.循环求多项式和(8)  *\n");
+		printf("*  7.打印乘法表(9)      *\n");
+		printf("*  8.编程图案显示(10)   *\n");
+		printf("*  9.求1k内完数和(11)   *\n");
+		printf("*  10.打印水仙花数(12)  *\n");
+		printf("*  11.取球方案(13)      *\n");
+		printf("*  12.算数练习PLUS      *\n");
+		printf("*  0.退出               *\n");
+		printf("*************************\n");
 		printf("请选择：\n");
 		scanf("%d",&ch);
 		switch(ch){
@@ -358,7 +414,10 @@ void menu(){
 				Pattern(y);
 				break;
 			}
-			case 9:MathLearn_PLUS();break;
+			case 9:PerfectNum();break; 
+			case 10:DaffodilNum();break;
+			case 11:GetBall();break;
+			case 12:MathLearn_PLUS();break;
 			case 0:printf("Thank You For Using!!!\n");return;
 			default:printf("Inputing ERROR! Please try again!\n");
 		}
@@ -410,7 +469,7 @@ int main(){
 //	//7
 //	Count_e();
 //	
-//	//8
+	//8
 //	int r;
 //	printf("请输入多项式和的个数：\n");
 //	scanf("%d",&r);
@@ -424,6 +483,15 @@ int main(){
 //	printf("请输入图案总行数n：\n");
 //	scanf("%d",&y);
 //	Pattern(y);
+	
+	//11求完数 
+	//PerfectNum();
+	 
+	//12求水仙花数 
+	//DaffodilNum();
+	
+	//13
+	//GetBall();
 	
 	//14
 	//MathLearn_PLUS();
