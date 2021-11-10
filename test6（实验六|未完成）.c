@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<assert.h>
 #include<time.h>
+#include<string.h>
 void StudyMem(){
 	int iArray[5],iNum;
 	char iString[5],cLetter;
@@ -197,6 +198,72 @@ int SelectSort(){
 		}
 	}
 }
+void StringOption(){
+	printf("******************\n");
+	printf("*请选择功能:     *\n");
+	printf("*1.字符串的连接  *\n");
+	printf("*2.字符串的复制  *\n");
+	printf("*3.字符串的比较  *\n");
+	printf("*4.字符串的逆序  *\n");
+	printf("*5.求字符串长度  *\n");
+	printf("******************\n");
+	int ch;
+	scanf("%d",&ch);
+	switch(ch){
+		case 1:{
+			char str1[25],str2[11];
+			printf("请输入两个字符串(中间用空格隔开,每个字符串不超过10个字符)进行连接:\n");
+			fflush(stdin);
+			scanf("%s%s",str1,str2);
+			printf("连接后字符串:\n%s\n",strcat(str1,str2));
+			break;
+		}
+		case 2:{
+			char str1[11],str2[11];
+			printf("请输入一个字符串(不超过10个字符)进行复制:\n");
+			fflush(stdin);
+			scanf("%s",str1);
+			printf("字符数组:\nstr1: %s\nstr2: %s\n",str1,strcpy(str2,str1));
+			break;
+		}
+		case 3:{
+			char str1[11],str2[11];
+			printf("请输入两个字符串(中间用空格隔开,每个字符串不超过10个字符)进行比较:\n");
+			fflush(stdin);
+			scanf("%s%s",str1,str2);
+			if(strcmp(str1,str2)>0){
+				printf("str1 大于 str2\n");
+			}else if(strcmp(str1,str2)<0){
+				printf("str1 小于 str2\n");
+			}else{
+				printf("两个字符串相等\n");
+			}
+			break;
+		}
+		case 4:{
+			char str1[11],str2[11]={0};
+			printf("请输入一个字符串(不超过10个字符)进行逆序:\n");
+			fflush(stdin);
+			scanf("%s",str1);
+			int n;
+			n=strlen(str1);//测出str1的字符串长度
+			int i;
+			for(i=0;i<n;i++){
+				str2[i]=str1[n-i-1];//一定要-1一定要-1一定要-1!!! 例如n=3是数组长度，但是str1[3]没有字符!!!垃圾东西耽误我一个小时？ 
+			}
+			printf("原字符串  :%s\n逆序字符串:%s\n",str1,str2);
+			break;
+		}
+		case 5:{
+			char str1[11];
+			printf("请输入一个字符串(不超过10个字符)测量长度:\n");
+			fflush(stdin);
+			scanf("%s",str1);
+			printf("字符串长度: %d",strlen(str1));
+			break;
+		}
+	} 
+}
 int MathLearn_do(int a,int f,int b,int *ansp){//接收到数据后打印题目并接收 
 	int ans;
 	printf("出题如下:\n%d %c %d = ?\n",a,f,b);
@@ -325,7 +392,10 @@ int main(){
 	//SelectSort();
 	//printf("排序次数:%d\n",SelectSort());
 	
-	//10
+	//9字符串基本操作
+	//StringOption(); 
+	 
+	//10小学生算数练习程序 
 	//SetQuestion();
 	
 	return 0;
