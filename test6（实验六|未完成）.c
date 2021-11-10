@@ -197,7 +197,7 @@ int SelectSort(){
 		}
 	}
 }
-int MathLearn_do(int a,int f,int b,int *ansp){
+int MathLearn_do(int a,int f,int b,int *ansp){//接收到数据后打印题目并接收 
 	int ans;
 	printf("出题如下:\n%d %c %d = ?\n",a,f,b);
 	scanf("%d",&ans);
@@ -226,10 +226,10 @@ int SetQuestion(){//出题
 				f[i]='-';
 				if(a>=b) sum[i]=a[i]-b[i];
 				else{
-					do{
+					do{//如果a<b则进入循环，当随机数a>=b时跳出循环，使出题更合理 
 						a[i]=rand()%10+1;
 						b[i]=rand()%10+1;
-					}while(a[i]<b[i]);
+					}while((a[i]-b[i])<0);
 					sum[i]=a[i]-b[i];
 				}
 				break;
@@ -243,7 +243,7 @@ int SetQuestion(){//出题
 				f[i]='/';
 				if(a[i]%b[i]==0) sum[i]=a[i]/b[i];
 				else{
-					do{
+					do{//如果a不能被b整除则进入循环，当随机数a能被b整除时跳出循环，使出题更合理 
 						a[i]=rand()%10+1;
 						b[i]=rand()%10+1;
 					}while(a[i]%b[i]!=0);
