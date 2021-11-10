@@ -1,282 +1,74 @@
 #include<stdio.h>
+#include<assert.h>
 #include<time.h>
-#include<math.h>
-#define N 1005
-#define EPS 1.0e-5
-
-int dectobin(int n){//该函数用于将十进制数转化为二进制 
-	int sum=0;
-	int y,x=1;//y表示余数，x为叠加的系数
-	while(n!=0){
-		y=n%2;
-		sum+=x*y;
-		x*=10;
-		n/=2;
-	}
-	return sum;
-}
-int Count_One_Bits(unsigned short uValue){
-	int iSum=0;
-	uValue=dectobin(uValue);//将输入的十进制数转化为二进制进而计算 
-	while(uValue){
-		if(uValue%2==1){
-			iSum++;	
-		}
-		uValue/=10;
-	}
-	return iSum;
-}
-int Greatest_Common_Divisor(int p,int q){
-	int r;
-	if(p>0 && q>0){
-		if(p<q){
-			int mid;
-			mid=p;
-			p=q;
-			q=mid;
-		}
-		while((r=p%q)!=0){
-			p=q;
-			q=r;
-			r=p%q;
-		}
-		return q;
-	}else{
-		return -1;
-	}
-}
-int IsPrimeNumber(int m){
-	int k=(int)sqrt(m),i,flag;//flag用于标记是否为素数 ,1为TRUE，0为FALSE 
-	if(m==0||i==1){
-		flag=0;
-	}
-	for(i=2;i<=k;i++){
-		if(m%i==0){
-			flag=0; 
-			break;
-		}else{
-			flag=1;
-		}
-	}
-	//if(i>k) flag=1;//若x为素数，最后一次循环会将i+1后大于k 
-	//else flag=0;
-	return flag;
-}
-void TestPrime(){
+#include<string.h>
+void StudyMem(){
+	int iArray[5],iNum;
+	char iString[5],cLetter;
+	double fData[5],fNum;
 	int i;
-	for(i=1;i<=1000;i++){
-		if(IsPrimeNumber(i)) printf("%4d是素数\n",i);
-		else printf("%4d不是素数\n",i);
-	} 
-}
-void StatisticsNum(){
-	int a[11];//数组0-10一共十一个整数 
-	int i,sum=0,num=0;
-	printf("请输入任意10个数：\n"); 
-	for(i=1;i<=10;i++){
-		scanf("%d",&a[i]);
-		if(a[i]>0){
-			sum+=a[i];
-		}
-		if(a[i]%2==0){
-			num++;
-		}
+	printf("请输入 5 个整数：\n");
+	for(i=0;i<5;i++){
+		scanf("%d",&iArray[i]);
+		printf("iArray(%d)的内存%d字节,起始地址是0x%x,值%d\n",i,sizeof(iArray[i]),&iArray[i],iArray[i]);
 	}
-	printf("正数之和：%d 偶数个数：%d\n",sum,num);
-}
-void SatisticsChar(){
-	char a[N];
-	printf("请输入一串字符，以#结束:\n");
-	int i,num=0,numa=0;
-	for(i=1;;i++){
-		char temp=getchar();
-		if(temp!='#'){
-			a[i]=temp;
-			num++;
-			if(temp>=97 && temp<=122) numa++;
-		}else{
-			break;
-		}
+	printf("请输入 5 个字符：\n");
+	scanf("%s",iString);
+	for(i=0;i<5;i++){
+		printf("iString(%d)的内存%d字节,起始地址是0x%x,值%c\n",i,sizeof(iString[i]),&iString[i],iString[i]);
 	}
-	printf("字符个数：%d 小写字母个数：%d\n",num,numa);
-}
-int StatisticsMax(int n){
-	int i;
-	int a[N];
-	for(i=1;i<=n;i++){
-		scanf("%d",&a[i]);
-		if(i>=2){
-			if(a[i-1]>a[i]){
-				a[i]=a[i-1];
-			}
-		}
+	printf("请输入 5 个浮点数：\n");
+	for(i=0;i<5;i++){
+		scanf("%lf",&fData[i]);
+		printf("fData(%d)的内存%d字节,起始地址是0x%x,值%lf\n",i,sizeof(fData[i]),&fData[i],fData[i]);
 	}
-	printf("最大值：%d\n",a[n]);
-	return a[n];
+	printf("请输入iNum:\n");
+	scanf("%d",&iNum);
+	printf("iNum的内存%d字节,起始地址是0x%x,值%d\n",sizeof(iNum),&iNum,iNum);
+	
+	printf("请输入cLetter:\n");
+	fflush(stdin);
+	cLetter=getchar();
+	printf("cLetter的内存%d字节,起始地址是0x%x,值%c\n",sizeof(cLetter),&cLetter,cLetter);
+	
+	printf("请输入fNum");
+	scanf("%lf",&fNum);
+	printf("fNum的内存%d字节,起始地址是0x%x,值%lf\n",sizeof(fNum),&fNum,fNum);
 }
-void five_test5_1(){
-	int a,b;
-	for(a=1,b=1;a<=100;a++){
-		printf("a=%d,",a);
-		if(b>=20)
-			break;
-		if(b%3==1){
-			b+=3;
-			continue;
-		}
-		b-=5;
+void Six_prog1(){
+	float fn[20];
+	int i,count,max,min;
+	printf("输入实际数据个数（不超过20）:\n");
+	scanf("%d",&count);
+	assert(count<=20);//如果count<=20.则继续执行，反之终止
+	printf("请输入 %d 个数据：\n",count);
+	for(i=0;i<count;i++){
+		scanf("%f",&fn[i]);
 	}
-	printf("\n");
-}
-void five_test5_2(){
-	int m=1,n=3;
-	do{
-		n+=m++;//m的值先调用后自加 
-		if(n%7==0)
-			continue;
-		else ++m;
-	}while(n<15);
-	printf("m=%d,n=%d\n",m,n);
-}
-void Apple(){
-	int i=1,num=2;
-	float w=0.8,mon;
-	do{
-		mon=num*w;
-		printf("第 %d 天：%d 个苹果，%.2f 元\n",i,num,mon);
-		num=num*2-1;
-		i++;
-	}while(num<=100);
-}
-void Count_e(){//EPS为10^-5 
-	double e=1.0,f=0,n=1.0;
-	int i,j,count=0;
-	for(i=1;;i++){
-		for(j=1;j<=i;j++){
-			n=n/(double)(j);
-		}
-		count++;
-		if(i>1 && f-n<=EPS){
-			break;
-		}
-		e+=n;
-		f=n;
-		n=1.0;
+	max=min=0;
+	for(i=0;i<count;i++){
+		if(fn[i]>fn[max]) max=i;
+		else if(fn[i]<fn[min]) min=i;
 	}
-	printf("e值 %lf ,总累加项数 %d\n",e,count);
+	printf("输出结果:\n");
+	printf("最大值为：%.2f  其下标为：%d\n",fn[max],max);
+	printf("最小值为：%.2f  其下标为：%d\n",fn[min],min);
 }
-int SumPolynomial(int n){//约定n<10 
-	int i,j;
-	int t;
-	int sum=0;
-	for(i=1;i<=n;i++){
-		t=0;//每次计算初始化 
-		for(j=0;j<i;j++){//计算每一项 
-			t=t*10+i;
-		}
-		sum+=t;
-	}
-	return sum;
+void Point_Array(){
+	int iArray[]={1,2,3,4,5};
+	int *p=NULL;
+	
+	p=iArray;
+	printf("%d\n",p[0]);
+	printf("%d\n",*(++p));
+	printf("%d\n",*(p+2));
+	printf("%d\n",*(p--));
+	printf("%d\n",*p++);
+	printf("%d\n",*p);
+	printf("%d\n",++(*p));
+	printf("%d\n",*p);
 }
-void TimesTable(){
-	int i,j;
-	printf("九九乘法表：\n");
-	for(i=1;i<=9;i++){
-		for(j=1;j<=9;j++){
-			if(i>=j){
-				printf("  %d * %d = %-2d",i,j,i*j);
-			}
-		}
-		printf("\n");
-	}
-}
-int Pattern(int n){//n为图案总行数，总行数不超过40，且应为奇数 
-	int i,j,k=(n-1)/2;
-	if(n>0 && n<40 && (n%2!=0)){
-		printf("\n");
-		for(i=1;i<=n;i++){
-			if(i<=k){
-				if(i-1==0){
-					for(j=1;j<=n-2*(i-1);j++){
-						printf("*");
-					}
-				}else{
-					for(j=1;j<=(i-1);j++){
-						printf(" ");
-					}
-					for(j=1;j<=n-2*(i-1);j++){
-						printf("*");
-					}
-				}
-			}else{
-				if(i==n){
-					for(j=1;j<=n;j++){
-						printf("*");
-					}
-				}else{
-					for(j=1;j<=n-i;j++){
-						printf(" ");
-					}
-					for(j=1;j<=n-2*(n-i);j++){
-						printf("*");
-					}
-				}
-			}
-			printf("\n");
-		}
-		return 1;
-	}else{//参数有误，返回0；否则，返回1 
-		printf("错误！请输入大小为0-40的奇数");
-		return 0;
-	}
-}
-int MathLearn_PLUS(){
-	srand(time(NULL));
-	int a,f,fChar,b,sum;
-	a=rand()%10+1;
-	f=rand()%4+1;
-	b=rand()%10+1;
-	switch(f){
-		case 1:{
-			sum=a+b;
-			fChar='+';
-			break;
-		}
-		case 2:{
-			sum=a-b;
-			fChar='-';
-			break;
-		}
-		case 3:{
-			sum=a*b;
-			fChar='*';
-			break;
-		}
-		case 4:{
-			sum=a/b;
-			fChar='/';
-			break;
-		}
-	}
-	printf("请计算以下题目:\n %d %c %d = ?\n",a,fChar,b);
-	int i,wron=0;
-	for(i=1;i<=3;i++){
-		int ans;
-		scanf("%d",&ans);
-		if(ans==sum){
-			printf("Right!\n");
-			break;
-		}else if(ans!=sum && i==3){
-			printf("You Have Tryed Too Much!\n");
-			wron++;
-		}else{
-			printf("Not Correct!Try again!\n");
-			wron++;
-		}
-	}
-	return wron;//返回错题数 
-}
-void PerfectNum(){//完数 
+int PerfectNum(){//完数 
 	int i,j,sum,n=0,sumn=0;
 	printf("输出 1000 以内的完数及其因子:\n");
 	
@@ -290,212 +82,321 @@ void PerfectNum(){//完数
 		if(i==sum) {//判断因子是否等于完数
 			n++;//用于记录完数个数 
 			sumn+=i;//用于记录完数和 
+			printf("%d=",i);
 			for(j=1;j<i;j++){
 				if(i%j==0) {//求因子之和
 					printf("%d+",j);
 				}
 			}
-			printf("\b");
-			printf("=%d\n",i);
+			printf("\b \n");
 		}
 	}
 	
-	printf("完数和:%d 完数个数:%d\n",sumn,n);
+	printf("完数和:%d 完数个数:%d",sumn,n);
 }
-int DaffodilNum(){
-	int i;
-	printf("将输出(100-999)范围的水仙花数:\n");
-	for(i=100;i<=999;i++){
-		int a1=i%10;
-		int a2=(i/10)%10;
-		int a3=i/100;
-		if(a1*a1*a1+a2*a2*a2+a3*a3*a3==i){
-			printf("%d = %d^3 + %d^3 + %d^3\n",i,a1,a2,a3);
+void isPerfectNum(){//输入一个数判断是否是完数 
+	int x;
+	printf("请输入需要判断（是否是完数）的数:\n");
+	scanf("%d",&x);
+	int i,sum=0;
+	for(i=1;i<x;i++){
+		if(x%i==0){
+			sum+=i;
 		}
 	}
-}
-void GetBall(){
-	int i,j,z;
-	int n=0;
-	        printf("序号 红-白-黑\n");
-	for(i=0;i<=3;i++){
-		for(j=0;j<=3;j++){
-			z=8-i-j;
-			if(z<=6){
-				n++;
-				printf("%2d:  %d-%d-%d\n",n,i,j,z);
+	if(x==sum){
+		printf("%d 是完数\n",x);
+		printf("%d=",x);
+		for(i=1;i<x;i++){
+			if(x%i==0) {//求因子之和
+				printf("%d+",i);
 			}
 		}
+		printf("\b \n");
+	}else{
+		printf("%d 不是完数\n",x);
 	}
-	printf("共 %d 种取法\n",n);
 }
-void menu_1(){
-	int ch;
-	printf("\n***********************\n");
-	printf("*请选择功能：         *\n");
-	printf("*  1.统计正数和&偶数  *\n");
-	printf("*  2.统计字符         *\n");
-	printf("*  3.找出最大值       *\n");
-	printf("***********************\n");
-	printf("请选择：\n");
-	scanf("%d",&ch);
-	switch(ch){
-		case 1:StatisticsNum();break;
-		case 2:SatisticsChar();break;
-		case 3:{
-			int n;
-			printf("请输入个数n:\n"); 
-			scanf("%d",&n);
-			StatisticsMax(n);
-			break;
+void ReverseArray(int iArray[],int iCount){//将iArray中iCount个整数逆序放置 
+
+	int i;
+	int temp[iCount];
+	printf("原数组:\n");
+	for(i=0;i<iCount;i++){
+		temp[iCount-1-i]=iArray[i];
+		printf("%d ",iArray[i]);
+	}
+	printf("\n逆序数组:\n");
+	for(i=0;i<iCount;i++){
+		iArray[i]=temp[i];
+		printf("%d ",iArray[i]);
+	}
+	printf("\n");
+}
+int RubbleSort(int iSortArray[],int iSize){
+	if(iSortArray==NULL){//如果是空数组则返回0 
+		return 0;
+	}
+	int i,j,temp,flag;
+	for(i=0;i<iSize-1;i++){
+	//外层循环，每次循环都将一个最大值浮到最上面 
+		flag=1;
+		for(j=0;j<iSize-1;j++){
+			if(iSortArray[j]>iSortArray[j+1]){
+				temp=iSortArray[j];
+				iSortArray[j]=iSortArray[j+1];
+				iSortArray[j+1]=temp;
+				flag=0;
+				//进行一次互换以后则标记flag=0 ,
+			}
+		}
+		
+    	printf("第 %d 轮排序: ", i+1);
+    	for (j = 0; j < iSize; ++j){
+        	printf("%d ", iSortArray[j]);
+    	}
+    	printf("\n");
+    	
+    	if(flag){
+    		return i+1;
+		}//如果flag没有被更新为0，则说明已经不需要继续下一次互换了 
+	}
+
+}
+int SelectSort(){
+	//给数组初始化 
+	srand(time(NULL));
+	int iArray[10],start=0;//start用于标记数组中无无序子集（右半区）的起始位置 
+	int i,j,flag;
+	printf("原始数组:\n");
+	for(i=0;i<10;i++){
+		iArray[i]=rand()%100+1;
+		printf("%d ",iArray[i]);
+	}//给数组赋值 
+	printf("\n");
+	
+	//大循环 
+	for(i=0;i<10;i++){
+		flag=1;
+		//小循环 
+		for(j=10-1;j>=start;j--){
+			if(iArray[j]<iArray[j-1]){
+				int temp=iArray[j];
+				iArray[j]=iArray[j-1];
+				iArray[j-1]=temp;
+				flag=0;
+			}
+		}
+		start++;
+		printf("第 %d 次排序:",i+1);
+		for(j=0;j<10;j++){
+			printf("%d ",iArray[j]);
+		}
+		printf("\n");
+		if(flag){
+			return i+1;//返回排序次数 
 		}
 	}
 }
-void menu(){
-	for(;;){//三个表达式均为空，使for循环能无限循环，满足菜单循环要求 
-		int ch;
-		printf("\n***********************\n");
-		printf("*请选择功能:(题号)      *\n");
-		printf("*  1.求最大公约数(2)    *\n");
-		printf("*  2.判断素数(3)        *\n");
-		printf("*  3.循环统计(4)->      *\n");
-		printf("*  4.苹果购买方案(6)    *\n");
-		printf("*  5.迭代法求e值(7)     *\n");
-		printf("*  6.循环求多项式和(8)  *\n");
-		printf("*  7.打印乘法表(9)      *\n");
-		printf("*  8.编程图案显示(10)   *\n");
-		printf("*  9.求1k内完数和(11)   *\n");
-		printf("*  10.打印水仙花数(12)  *\n");
-		printf("*  11.取球方案(13)      *\n");
-		printf("*  12.算数练习PLUS      *\n");
-		printf("*  0.退出               *\n");
-		printf("*************************\n");
-		printf("请选择：\n");
-		scanf("%d",&ch);
-		switch(ch){
+void StringOption(){
+	printf("******************\n");
+	printf("*请选择功能:     *\n");
+	printf("*1.字符串的连接  *\n");
+	printf("*2.字符串的复制  *\n");
+	printf("*3.字符串的比较  *\n");
+	printf("*4.字符串的逆序  *\n");
+	printf("*5.求字符串长度  *\n");
+	printf("******************\n");
+	int ch;
+	scanf("%d",&ch);
+	switch(ch){
+		case 1:{
+			char str1[25],str2[11];
+			printf("请输入两个字符串(中间用空格隔开,每个字符串不超过10个字符)进行连接:\n");
+			fflush(stdin);
+			scanf("%s%s",str1,str2);
+			printf("连接后字符串:\n%s\n",strcat(str1,str2));
+			break;
+		}
+		case 2:{
+			char str1[11],str2[11];
+			printf("请输入一个字符串(不超过10个字符)进行复制:\n");
+			fflush(stdin);
+			scanf("%s",str1);
+			printf("字符数组:\nstr1: %s\nstr2: %s\n",str1,strcpy(str2,str1));
+			break;
+		}
+		case 3:{
+			char str1[11],str2[11];
+			printf("请输入两个字符串(中间用空格隔开,每个字符串不超过10个字符)进行比较:\n");
+			fflush(stdin);
+			scanf("%s%s",str1,str2);
+			if(strcmp(str1,str2)>0){
+				printf("str1 大于 str2\n");
+			}else if(strcmp(str1,str2)<0){
+				printf("str1 小于 str2\n");
+			}else{
+				printf("两个字符串相等\n");
+			}
+			break;
+		}
+		case 4:{
+			char str1[11],str2[11]={0};
+			printf("请输入一个字符串(不超过10个字符)进行逆序:\n");
+			fflush(stdin);
+			scanf("%s",str1);
+			int n;
+			n=strlen(str1);//测出str1的字符串长度
+			int i;
+			for(i=0;i<n;i++){
+				str2[i]=str1[n-i-1];//一定要-1一定要-1一定要-1!!! 例如n=3是数组长度，但是str1[3]没有字符!!!垃圾东西耽误我一个小时？ 
+			}
+			printf("原字符串  :%s\n逆序字符串:%s\n",str1,str2);
+			break;
+		}
+		case 5:{
+			char str1[11];
+			printf("请输入一个字符串(不超过10个字符)测量长度:\n");
+			fflush(stdin);
+			scanf("%s",str1);
+			printf("字符串长度: %d",strlen(str1));
+			break;
+		}
+	} 
+}
+int MathLearn_do(int a,int f,int b,int *ansp){//接收到数据后打印题目并接收 
+	int ans;
+	printf("出题如下:\n%d %c %d = ?\n",a,f,b);
+	scanf("%d",&ans);
+	*ansp=ans;
+	return 0;
+}
+int SetQuestion(){//出题 
+	srand(time(NULL));
+	int a[11],f[11],b[11],sum[11];//用数组储存操作数1、2,运算符 
+	int ans,*ansp;
+	int i;
+	ansp=&ans;
+	
+	/*操作数与运算符初始化*/ 
+	for(i=1;i<=10;i++){
+		a[i]=rand()%10+1;
+		f[i]=rand()%4+1;
+		b[i]=rand()%10+1;
+		switch(f[i]){
 			case 1:{
-				int p,q;
-				printf("输入正整数 p 和 q:\n");
-				scanf("%d%d",&p,&q);
-				int g=Greatest_Common_Divisor(p,q);
-				if(g==-1)
-					{printf("请输入正整数！");
-				}else{
-					printf("正整数 %d 和 %d 的最大公约数为 %d\n",p,q,g);
-				}
+				f[i]='+';
+				sum[i]=a[i]+b[i];
 				break;
 			}
 			case 2:{
-				int x;
-				printf("请输入一个整数:\n");
-				scanf("%d",&x);
-				if(IsPrimeNumber(x)) printf("%d是素数\n",x);
-				else printf("%d不是素数\n",x);
+				f[i]='-';
+				if(a>=b) sum[i]=a[i]-b[i];
+				else{
+					do{//如果a<b则进入循环，当随机数a>=b时跳出循环，使出题更合理 
+						a[i]=rand()%10+1;
+						b[i]=rand()%10+1;
+					}while((a[i]-b[i])<0);
+					sum[i]=a[i]-b[i];
+				}
 				break;
 			}
 			case 3:{
-				menu_1();
+				f[i]='*';
+				sum[i]=a[i]*b[i];
 				break;
 			}
-			case 4:Apple();break;
-			case 5:Count_e();break;
-			case 6:{
-				int r;
-				printf("请输入多项式和的个数：\n");
-				scanf("%d",&r);
-				printf("运算结果：\n%d\n",SumPolynomial(r));
+			case 4:{
+				f[i]='/';
+				if(a[i]%b[i]==0) sum[i]=a[i]/b[i];
+				else{
+					do{//如果a不能被b整除则进入循环，当随机数a能被b整除时跳出循环，使出题更合理 
+						a[i]=rand()%10+1;
+						b[i]=rand()%10+1;
+					}while(a[i]%b[i]!=0);
+					sum[i]=a[i]/b[i];
+				}
 				break;
 			}
-			case 7:TimesTable();break;
-			case 8:{
-				int y;
-				printf("请输入图案总行数n：\n");
-				scanf("%d",&y);
-				Pattern(y);
-				break;
-			}
-			case 9:PerfectNum();break; 
-			case 10:DaffodilNum();break;
-			case 11:GetBall();break;
-			case 12:MathLearn_PLUS();break;
-			case 0:printf("Thank You For Using!!!\n");return;
-			default:printf("Inputing ERROR! Please try again!\n");
 		}
-		system("pause");//使程序暂停，按下Enter继续，理论上应调用库函数即#include<windows.h>
-		system("cls");//清屏，理论上应调用库函数即#include<windows.h>，本程序(Devc++)未使用该头文件也能运行，原因未知 
-	}
+	}//将十组操作数和运算符赋值
+	
+	/*用循环出题，直到错题数count为0时才跳出循环，教育小学生好帮手:)*/
+	int count;//统计错题数 
+	int mark[11]={0};
+	do{
+		for(i=1;i<=10;i++){
+			if(mark[i]==0){
+				ans=0;
+				MathLearn_do(a[i],f[i],b[i],ansp);
+				if(ans==sum[i]){
+					mark[i]=1;
+				}else{
+					mark[i]=0;
+				}
+			}	
+		}
+		count=0;
+		for(i=1;i<=10;i++){
+			if(mark[i]==0) count++;
+		}
+		if(count==0){
+			printf("Right!\n");
+			break;//如果正确则跳出循环，结束答题 
+		}else{
+			printf("错题数:%d\n",count);
+			printf("Do you want to correct your answer? Y/N\n");
+			int ch;
+			scanf("%c",&ch);
+			fflush(stdin);
+			scanf("%c",&ch);
+			if(ch==89 || ch==121){
+				system("cls");
+				continue;
+			}else{
+				break;
+			}
+		}
+	}while(count!=0);
 }
 int main(){
-//	//1
-//	printf("Input uValue:\n");
-//	int v;
-//	scanf("%d",&v);
-//	printf("%d\n",Count_One_Bits(v));
-//
-//	//2
-//	int p,q;
-//	printf("输入正整数 p 和 q:\n");
-//	scanf("%d%d",&p,&q);
-//	int g=Greatest_Common_Divisor(p,q);
-//	if(g==-1)
-//		{printf("请输入正整数！");
-//	}else{
-//		printf("正整数 %d 和 %d 的最大公约数为 %d\n",p,q,g);
-//	}
-//
-//	//3
-//	int x;
-//	printf("请输入一个整数:\n");
-//	scanf("%d",&x);
-//	if(IsPrimeNumber(x)) printf("%d是素数\n",x);
-//	else printf("%d不是素数\n",x);
-//	//TestPrime();//用于判断1-1000的素数 
-//	
-//	//4
-//	StatisticsNum();
-//	SatisticsChar();
-//	int n;
-//	printf("请输入个数n:\n"); 
-//	scanf("%d",&n);
-//	StatisticsMax(n);
-//	
-//	//5
-//	//five_test5_1();
-//	//five_test5_2();
-//	
-//	//6
-//	Apple();
-//	
-//	//7
-//	Count_e();
-//	
-	//8
-//	int r;
-//	printf("请输入多项式和的个数：\n");
-//	scanf("%d",&r);
-//	printf("运算结果：\n%d\n",SumPolynomial(r));
-//
-//	//9
-//	TimesTable();
-//	
-//	//10
-//	int y;
-//	printf("请输入图案总行数n：\n");
-//	scanf("%d",&y);
-//	Pattern(y);
-	
-	//11求完数 
+	//StudyMem();
+	//Six_prog1();
+	//Point_Array();
 	//PerfectNum();
+	//isPerfectNum();
+	
+	//5
+//	int n,i;
+//	printf("请输入数组元素个数iCount:\n");
+//	scanf("%d",&n);
+//	int a[n];
+//	printf("请输入 %d 个元素:\n",n);
+//	for(i=0;i<n;i++){
+//		scanf("%d",&a[i]);
+//	}
+//	ReverseArray(a,n);//参数是数组是，实参应是数组名，而非数组元素 
+	
+	//6 冒泡排序 
+//	int n2,j,num;
+//	printf("请输入需要排序的数组个数:(冒泡排序)\n");
+//	scanf("%d",&n2);
+//	int b[n2];
+//	printf("请输入 %d 个元素:\n",n2);
+//	for(j=0;j<n2;j++){
+//		scanf("%d",&b[j]);
+//	}
+//	printf("交换次数:%d\n",RubbleSort(b,n2));
+	
+	//7 选择排序 
+	//SelectSort();
+	//printf("排序次数:%d\n",SelectSort());
+	
+	//9字符串基本操作
+	//StringOption(); 
 	 
-	//12求水仙花数 
-	//DaffodilNum();
+	//10小学生算数练习程序 
+	//SetQuestion();
 	
-	//13
-	//GetBall();
-	
-	//14
-	//MathLearn_PLUS();
-	
-	menu();
 	return 0;
 }
