@@ -1,7 +1,10 @@
+/*CUIT软工214 2021081159 实验六*/
 #include<stdio.h>
 #include<assert.h>
 #include<time.h>
 #include<string.h>
+#include<conio.h>
+#define ESC 27
 void StudyMem(){
 	int iArray[5],iNum;
 	char iString[5],cLetter;
@@ -31,7 +34,7 @@ void StudyMem(){
 	cLetter=getchar();
 	printf("cLetter的内存%d字节,起始地址是0x%x,值%c\n",sizeof(cLetter),&cLetter,cLetter);
 	
-	printf("请输入fNum");
+	printf("请输入fNum\n");
 	scanf("%lf",&fNum);
 	printf("fNum的内存%d字节,起始地址是0x%x,值%lf\n",sizeof(fNum),&fNum,fNum);
 }
@@ -92,7 +95,7 @@ int PerfectNum(){//完数
 		}
 	}
 	
-	printf("完数和:%d 完数个数:%d",sumn,n);
+	printf("完数和:%d 完数个数:%d\n",sumn,n);
 }
 void isPerfectNum(){//输入一个数判断是否是完数 
 	int x;
@@ -198,6 +201,79 @@ int SelectSort(){
 		}
 	}
 }
+void StringStudy(){
+	char cStr1[20]="OK";
+	char cStr2[20]={'H','e','l','l','o',' ','t','h','e',' ','w','o','r','l','d','!'};
+	char cStr3[]="Programming is interesting.";
+	char *pStr1="OK!";
+	char *pStr2,*pStr3;
+	int i;
+	
+	printf("Assign a string to the array or the pointer:\n");
+	//cStr1="OK";
+	pStr2="ABCD!";
+	puts(pStr1);
+	puts(pStr2);
+	
+	printf("Study the address of a string const:\n");
+	printf("Address of\"ABCD!\":%x\n","ABCD!");
+	printf("pStr2=%x\n",pStr2);
+	printf("The third char of \"ABCD!\":%c\n","ABCD!"[2]);
+	
+	printf("Input a string to the pointer pStr1 by calling gets():\n");
+	gets(pStr1);
+	puts(pStr2);
+	
+	printf("Input \"12345 abcde\"to the arrat cStr1 by calling gets():\n");
+	gets(cStr1); //输入字符串"12345 abcde" 
+	puts(cStr1);
+	
+	printf("Input \"ABCDEF 123456\"to the array cStr1 by calling scanf():\n");
+	scanf("%s",cStr1); //输入字符串"ABCDEF 123456" 
+	puts(cStr1);
+	
+	//fflush(stdin);
+	
+	pStr1=cStr1;
+	printf("Using getchar() to input \"Hi,hello\"ended by ENTER:\n");
+	i=0;
+	pStr1[i]=getchar();//输入字符串"hi,hello!" 
+	while((pStr1[i]!='\n') && (i<19)){
+		i++;
+		pStr1[i]=getchar();
+	}
+	pStr1[i]='\0';
+	printf("Output the string by calling printf():%s\n",pStr1);
+	
+	pStr1=cStr1;
+	printf("Using getche() to input\"How are you\"ended by ESC:\n");
+	i=0;
+	pStr1[i]=getche();//输入字符串"How are you!"+ESC
+	while((pStr1[i]!=ESC) && (i<19)){
+		i++;
+		pStr1[i]=getche();
+	} 
+	//pStr1[i]='\0';
+	printf("\nOutput the string by calling printf():%s\n",pStr1);
+	
+	printf("Display string2 and string3 by calling puts():\n");
+	puts(cStr2);
+	puts(cStr3);
+	printf("Size of the array cStr2:%d\n",sizeof(cStr2));
+	printf("Size of the array cStr3:%d\n",sizeof(cStr3));
+	
+	printf("Using the pointer to output the string2 by calling printf():\n");
+	pStr2=cStr2;
+	printf("%s",pStr2);
+	
+	printf("Using the pointer to output the string3 by calling putchar():\n");
+	pStr3=cStr3;
+	while(*pStr3){
+		putchar(*pStr3);
+		pStr3++;
+	}
+	printf("The End!\n");
+}
 void StringOption(){
 	printf("******************\n");
 	printf("*请选择功能:     *\n");
@@ -247,11 +323,12 @@ void StringOption(){
 			scanf("%s",str1);
 			int n;
 			n=strlen(str1);//测出str1的字符串长度
-			int i;
-			for(i=0;i<n;i++){
-				str2[i]=str1[n-i-1];//一定要-1一定要-1一定要-1!!! 例如n=3是数组长度，但是str1[3]没有字符!!!垃圾东西耽误我一个小时？ 
+			int i,k=n/2;
+			strcpy(str2,str1);
+			for(i=0;i<k;i++){
+				str1[i]=str1[n-i-1];//一定要-1一定要-1一定要-1!!! 例如n=3是数组长度，但是str1[3]没有字符!!!垃圾东西耽误我一个小时？ 
 			}
-			printf("原字符串  :%s\n逆序字符串:%s\n",str1,str2);
+			printf("原字符串  :%s\n逆序字符串:%s\n",str2,str1);
 			break;
 		}
 		case 5:{
@@ -291,12 +368,13 @@ int SetQuestion(){//出题
 			}
 			case 2:{
 				f[i]='-';
-				if(a>=b) sum[i]=a[i]-b[i];
-				else{
+				if(a[i]>=b[i]){
+					sum[i]=a[i]-b[i];
+				}else{
 					do{//如果a<b则进入循环，当随机数a>=b时跳出循环，使出题更合理 
 						a[i]=rand()%10+1;
 						b[i]=rand()%10+1;
-					}while((a[i]-b[i])<0);
+					}while(a[i]<b[i]);
 					sum[i]=a[i]-b[i];
 				}
 				break;
@@ -344,7 +422,7 @@ int SetQuestion(){//出题
 			printf("Right!\n");
 			break;//如果正确则跳出循环，结束答题 
 		}else{
-			printf("错题数:%d\n",count);
+			printf("错题数:%d\n分数:%d\n",count,(10-count)*10);
 			printf("Do you want to correct your answer? Y/N\n");
 			int ch;
 			scanf("%c",&ch);
@@ -358,6 +436,72 @@ int SetQuestion(){//出题
 			}
 		}
 	}while(count!=0);
+}
+void menu(){
+	for(;;){
+		printf("\n***************************************\n");
+		printf("*请选择功能:                          *\n");
+		printf("*  1.研究数组变量的储存               *\n");
+		printf("*  2.一维数组的定义、初始化和元素引用 *\n");
+		printf("*  3.指针访问一维数组                 *\n");
+		printf("*  4.找寻完数及其因子                 *\n");
+		printf("*  5.数组作函数参数                   *\n");
+		printf("*  6.冒泡排序算法                     *\n");
+		printf("*  7.选择排序算法（选做）             *\n");
+		printf("*  8.字符指针、字符数组与字符串的使用 *\n");
+		printf("*  9.字符串的基本操作                 *\n");
+		printf("*  10.小学生算数练习+10题连做+错题重做*\n");
+		printf("*  0.退出                             *\n");
+		printf("***************************************\n");
+		printf("请选择：\n");
+		int ch;
+		scanf("%d",&ch);
+		switch(ch){
+			case 1:StudyMem();break;
+			case 2:Six_prog1();break;
+			case 3:Point_Array();break;
+			case 4:PerfectNum();isPerfectNum();break;
+			case 5:{
+				int n,i;
+				printf("请输入数组元素个数iCount:\n");
+				scanf("%d",&n);
+				int a[n];
+				printf("请输入 %d 个元素:\n",n);
+				for(i=0;i<n;i++){
+					scanf("%d",&a[i]);
+				}
+				ReverseArray(a,n);//参数是数组是，实参应是数组名，而非数组元素 
+				break;
+			}
+			case 6:{
+				int n2,j,num;
+				printf("请输入需要排序的数组个数:(冒泡排序)\n");
+				scanf("%d",&n2);
+				int b[n2];
+				printf("请输入 %d 个元素:\n",n2);
+				for(j=0;j<n2;j++){
+					scanf("%d",&b[j]);
+				}
+				printf("交换次数:%d\n",RubbleSort(b,n2));
+				break;
+			}
+			case 7:{
+				SelectSort();
+				printf("排序次数:%d\n",SelectSort());
+				break;
+			}
+			case 8:StringStudy();break;
+			case 9:StringOption();break;
+			case 10:SetQuestion();break;
+			case 0:{
+				printf("Thanks For Your Using!\n");
+				return;
+			}
+			default:printf("Please input correct NUMBER!\n");
+		}
+		system("pause");
+		system("cls");
+	}
 }
 int main(){
 	//StudyMem();
@@ -392,11 +536,15 @@ int main(){
 	//SelectSort();
 	//printf("排序次数:%d\n",SelectSort());
 	
+	//8字符指针、字符数组与字符串的使用 
+	//StringStudy();
+	
 	//9字符串基本操作
 	//StringOption(); 
 	 
 	//10小学生算数练习程序 
 	//SetQuestion();
 	
+	menu();
 	return 0;
 }
